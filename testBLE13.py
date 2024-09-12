@@ -14,10 +14,15 @@ def focus_next_widget(event):
 # Function to query the scanner and process the results
 def query_scanner():
     # Extract and clean the input data
-    box_barcode = clean_input(entry_box_barcode.get("1.0", "end"))
-    box_qr = clean_input(entry_box_qr.get("1.0", "end"))
-    device_barcode = clean_input(entry_device_barcode.get("1.0", "end"))
-    device_qr = clean_input(entry_device_qr.get("1.0", "end"))
+    # box_barcode = clean_input(entry_box_barcode.get("1.0", "end"))
+    # box_qr = clean_input(entry_box_qr.get("1.0", "end"))
+    # device_barcode = clean_input(entry_device_barcode.get("1.0", "end"))
+    # device_qr = clean_input(entry_device_qr.get("1.0", "end"))
+    box_barcode = clean_input(entry_box_barcode.get("1.0", "end")).strip().replace("\n", "").replace(" ", "")
+    box_qr = clean_input(entry_box_qr.get("1.0", "end")).strip().replace("\n", "").replace(" ", "")
+    device_barcode = clean_input(entry_device_barcode.get("1.0", "end")).strip().replace("\n", "").replace(" ", "")
+    device_qr = clean_input(entry_device_qr.get("1.0", "end")).strip().replace("\n", "").replace(" ", "")
+
 
     # debug
     print(f"Box Barcode: {box_barcode}")
