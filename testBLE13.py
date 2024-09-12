@@ -33,23 +33,34 @@ def query_scanner():
     barcode_match = (box_barcode == device_barcode and device_barcode == PN)
 
     # Display the results in a left-aligned, two-column format
-    result_label_1.config(text=f"Barcode Match:")
-    result_value_1.config(text=f"{barcode_match}")
+    result_label_1.config(text=f"Barcode:")
+    # print "Match" if it is a match, else print "No Match"
+    # result_value_1.config(text=f"{'Match' if barcode_match else 'No Match'}")
+    result_value_1.config(
+        text="Match" if barcode_match else "No Match", 
+        fg="green" if barcode_match else "red"
+    )
     
-    result_label_2.config(text=f"QR Code Match:")
-    result_value_2.config(text=f"{qr_code_match}")
+    result_label_2.config(text=f"QR Code:")
+    # print "Match" if it is a match, else print "No Match"
+    # result_value_2.config(text=f"{'Match' if qr_code_match else 'No Match'}")
+    result_value_2.config(
+        text="Match" if qr_code_match else "No Match", 
+        fg="green" if qr_code_match else "red"
+    )
     
-    result_label_3.config(text=f"SN (PN):")
+    
+    result_label_3.config(text=f"SN:")
     result_value_3.config(text=f"{PN}")
     
     result_label_4.config(text=f"MAC:")
     result_value_4.config(text=f"{MAC}")
     
     result_label_5.config(text=f"SoC:")
-    result_value_5.config(text=f"{SoC}")
+    result_value_5.config(text=f"{SoC}%")
     
-    result_label_6.config(text=f"Temperature:")
-    result_value_6.config(text=f"{Temperature}")
+    result_label_6.config(text=f"Temp:")
+    result_value_6.config(text=f"{Temperature}F")
 
 # Function to clear all inputs and results, then focus on the first textbox
 def clear_all():
@@ -79,6 +90,9 @@ entry_box_barcode = tk.Text(root, height=2, width=50)
 entry_box_barcode.pack()
 entry_box_barcode.bind("<Return>", focus_next_widget)
 
+# Set initial focus to the first textbox
+entry_box_barcode.focus()
+
 label_box_qr = tk.Label(root, text="2. Scan Box QR Code:", font=monospace_font)
 label_box_qr.pack()
 entry_box_qr = tk.Text(root, height=2, width=50)
@@ -106,12 +120,12 @@ result_frame = tk.Frame(root)
 result_frame.pack(pady=10)
 
 # Left column labels
-result_label_1 = tk.Label(result_frame, text="Barcode Match:", font=monospace_font)
-result_label_2 = tk.Label(result_frame, text="QR Code Match:", font=monospace_font)
-result_label_3 = tk.Label(result_frame, text="SN (PN):", font=monospace_font)
+result_label_1 = tk.Label(result_frame, text="Barcode:", font=monospace_font)
+result_label_2 = tk.Label(result_frame, text="QR Code:", font=monospace_font)
+result_label_3 = tk.Label(result_frame, text="SN:", font=monospace_font)
 result_label_4 = tk.Label(result_frame, text="MAC:", font=monospace_font)
 result_label_5 = tk.Label(result_frame, text="SoC:", font=monospace_font)
-result_label_6 = tk.Label(result_frame, text="Temperature:", font=monospace_font)
+result_label_6 = tk.Label(result_frame, text="Temp:", font=monospace_font)
 
 # Right column values
 result_value_1 = tk.Label(result_frame, text="", font=monospace_font)
