@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Query</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="mt-5">Item Query</h2>
+    <form method="POST">
+        <!-- Item Number with Placeholder Text -->
+        <div class="form-group">
+            <label for="item_number">Item Number:</label>
+            <input type="text" class="form-control" id="item_number" name="item_number" 
+                   placeholder="1. Scan Box Barcode, 2. Scan Box QR Code, 3. Scan Device Barcode, 4. Scan Device QR Code" required>
+        </div>
+        
+        <!-- 12x3x4 Grid for Rack-Row-Device Location (Radio Buttons) -->
+        <h4>Select Rack-Row-Device Location:</h4>
+        <div class="grid-container">
+            {% for rack in range(4) %}
+                <div>
+                    <h5>Rack {{ rack + 1 }}</h5>
+                    {% for row in range(3) %}
+                        <div>
+                            <h6>Row {{ row + 1 }}</h6>
+                            {% for device in range(12) %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="rack_location" value="rack{{rack}}row{{row}}device{{device}}" required>
+                                    <label class="form-check-label">Rack {{ rack + 1 }}, Row {{ row + 1 }}, Device {{ device + 1 }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Query</button>
+    </form>
+
+    {% if item_data %}
+    <h3 class="mt-5">Results</h3>
+    
+    <!-- Barcode and QR Code Match Results -->
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Barcodes Match?</th>
+                <th>QR Codes Match?</th>
+                <th>State of Charge (SoC)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ 'Yes' if item_data.barcodes_match else 'No' }}</td>
+                <td>{{ 'Yes' if item_data.qrcodes_match else 'No' }}</td>
+                <td>{{ item_data.SoC }}%</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Additional Information -->
+    <h4>Additional Information</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>PN</th>
+                <th>MAC</th>
+                <th>State of Charge (SoC)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ item_data.date }}</td>
+                <td>{{ item_data.time }}</td>
+                <td>{{ item_data.PN }}</td>
+                <td>{{ item_data.MAC }}</td>
+                <td>{{ item_data.SoC }}%</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Displaying SoC in a 3x3x12 Grid -->
+    <h4>SoC for Rack-Row-Device Location</h4>
+    <div class="grid-container">
+        {% for rack in range(12) %}
+            <div>
+                <h5>Rack {{ rack + 1 }}</h5>
+                {% for row in range(3) %}
+                    <div>
+                        <h6>Row {{ row + 1 }}</h6>
+                        {% for device in range(3) %}
+                            <div class="alert alert-info">
+                                Rack {{ rack + 1 }}, Row {{ row + 1 }}, Device {{ device + 1 }}: {{ item_data.rack_soc[rack % 6][row][device] }}%
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
