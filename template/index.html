@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner Input and Match Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Scan Barcode and QR Codes</h1>
+    <form method="POST" action="/">
+        <div>
+            <label for="box_barcode">1. Scan Box Barcode:</label>
+            <input type="text" id="box_barcode" name="box_barcode" placeholder="Scan Box Barcode">
+        </div>
+        <div>
+            <label for="box_qr">2. Scan Box QR Code:</label>
+            <input type="text" id="box_qr" name="box_qr" placeholder="Scan Box QR Code">
+        </div>
+        <div>
+            <label for="device_barcode">3. Scan Device Barcode:</label>
+            <input type="text" id="device_barcode" name="device_barcode" placeholder="Scan Device Barcode">
+        </div>
+        <div>
+            <label for="device_qr">4. Scan Device QR Code:</label>
+            <input type="text" id="device_qr" name="device_qr" placeholder="Scan Device QR Code">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if mac_match is not none %}
+        <h2>Results:</h2>
+        <table border="1">
+            <tr>
+                <th>MAC</th>
+                <th>PN</th>
+                <th>SoC</th>
+                <th>MAC Match?</th>
+                <th>PN Match?</th>
+            </tr>
+            <tr>
+                <td>{{ mac }}</td>
+                <td>{{ pn }}</td>
+                <td>{{ soc }}</td>
+                <td>{{ 'Yes' if mac_match else 'No' }}</td>
+                <td>{{ 'Yes' if pn_match else 'No' }}</td>
+            </tr>
+        </table>
+    {% endif %}
+    
+    {% if error %}
+        <p style="color: red;">Error: {{ error }}</p>
+    {% endif %}
+</body>
+</html>
