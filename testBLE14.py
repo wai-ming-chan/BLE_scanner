@@ -6,7 +6,7 @@ import Penguin_scanner as p_scanner
 import sys
 sys.coinit_flags = 0  # 0 means MTA
 
-import win32com  # or any other package that causes the issue
+# import win32com  # or any other package that causes the issue
 
 # Function to clean input by removing \n characters
 def clean_input(input_text):
@@ -14,7 +14,20 @@ def clean_input(input_text):
 
 # Function to shift focus to the next input field
 def focus_next_widget(event):
-    event.widget.tk_focusNext().focus()
+    # event.widget.tk_focusNext().focus()
+    current_widget = event.widget
+    next_widget = current_widget.tk_focusNext()
+
+    # Clear the next widget's text if it's a Text widget
+    if isinstance(next_widget, tkinter.Text):
+        next_widget.delete("1.0", "end")
+    
+    # Shift focus to the next widget
+    next_widget.focus()
+
+    # Check if the current widget is the second one, then shift focus to the third textbox
+    if current_widget == entry_box_qr:  # Assuming `entry_box_qr` is the second textbox
+        entry_device_barcode.focus()
 
 # Function to query the scanner and process the results
 def query_scanner():
@@ -46,15 +59,15 @@ def query_scanner():
         # can safely ignore
         pass
 
-    import naughty_module  # this sets current thread to STA :-(
+    # import naughty_module  # this sets current thread to STA :-(
 
-    try:
-        from bleak.backends.winrt.util import uninitialize_sta
+    # try:
+    #     from bleak.backends.winrt.util import uninitialize_sta
 
-        uninitialize_sta()  # undo the unwanted side effect
-    except ImportError:
-        # not Windows, so no problem
-        pass
+    #     uninitialize_sta()  # undo the unwanted side effect
+    # except ImportError:
+    #     # not Windows, so no problem
+    #     pass
 
     # Call the scanner using the device QR code
     try:
