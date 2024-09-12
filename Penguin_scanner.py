@@ -25,6 +25,7 @@ async def connect_Penguin(address):
     # Loop through each device and print detailed information
     for device in devices:
         if device.name is not None and "Penguin" in device.name:
+            print(f"Checking device: {device.name}")
             manu_data = device.metadata.get('manufacturer_data', 'N/A')
             manu_data = manu_data.get(2504, 'N/A')
             if manu_data != 'N/A':

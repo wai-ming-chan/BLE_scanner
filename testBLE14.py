@@ -19,7 +19,7 @@ def focus_next_widget(event):
     next_widget = current_widget.tk_focusNext()
 
     # Clear the next widget's text if it's a Text widget
-    if isinstance(next_widget, tkinter.Text):
+    if isinstance(next_widget, tk.Text):
         next_widget.delete("1.0", "end")
     
     # Shift focus to the next widget
@@ -43,11 +43,11 @@ def query_scanner():
 
 
     # debug
-    print(f"Box Barcode: {box_barcode}")
-    print(f"Box QR Code: {box_qr}")
-    print(f"Device Barcode: {device_barcode}")
-    print(f"Device QR Code: {device_qr}")
-    print('-' * 50)
+    # print(f"Box Barcode: {box_barcode}")
+    # print(f"Box QR Code: {box_qr}")
+    # print(f"Device Barcode: {device_barcode}")
+    # print(f"Device QR Code: {device_qr}")
+    # print('-' * 50)
      
     try:
         from bleak.backends.winrt.util import allow_sta
@@ -147,7 +147,7 @@ label_box_qr = tk.Label(root, text="2. Scan Box QR Code:", font=monospace_font)
 label_box_qr.pack()
 entry_box_qr = tk.Text(root, height=2, width=50)
 entry_box_qr.pack()
-entry_box_qr.bind("<Return>", focus_next_widget)
+entry_box_qr.bind("<Tab>", focus_next_widget)
 
 label_device_barcode = tk.Label(root, text="3. Scan Device Barcode:", font=monospace_font)
 label_device_barcode.pack()
@@ -159,7 +159,7 @@ label_device_qr = tk.Label(root, text="4. Scan Device QR Code:", font=monospace_
 label_device_qr.pack()
 entry_device_qr = tk.Text(root, height=2, width=50)
 entry_device_qr.pack()
-entry_device_qr.bind("<Return>", focus_next_widget)
+entry_device_qr.bind("<Tab>", focus_next_widget)
 
 # Query button
 query_button = tk.Button(root, text="Query", command=query_scanner, height=2, width=20, font=monospace_font)
