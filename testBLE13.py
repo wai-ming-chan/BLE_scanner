@@ -18,7 +18,14 @@ def query_scanner():
     box_qr = clean_input(entry_box_qr.get("1.0", "end"))
     device_barcode = clean_input(entry_device_barcode.get("1.0", "end"))
     device_qr = clean_input(entry_device_qr.get("1.0", "end"))
-    
+
+    # debug
+    print(f"Box Barcode: {box_barcode}")
+    print(f"Box QR Code: {box_qr}")
+    print(f"Device Barcode: {device_barcode}")
+    print(f"Device QR Code: {device_qr}")
+    print('-' * 50)
+     
     # Call the scanner using the device QR code
     try:
         MAC, PN, SoC, Temperature = p_scanner.run_scanner(device_qr)

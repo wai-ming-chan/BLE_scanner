@@ -103,8 +103,5 @@ def run_scanner(input_address):
     # Run the scanner
     flag_success = asyncio.run(connect_Penguin(input_address))
 
-    # wait for the 2 seconds
-    # asyncio.sleep(2)
-    
     print(f'Founded? {flag_success}')
     return flag_success
