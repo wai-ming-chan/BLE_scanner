@@ -1,3 +1,10 @@
+"""
+This Python script scans for nearby Bluetooth devices using the Bleak library. 
+It focuses on identifying devices with the word "Penguin" in their name and filters out devices with low signal strength (RSSI < -66 dBm).
+For matching devices, it prints detailed information such as the device name, MAC address, signal strength (RSSI), manufacturer data, service UUIDs, and transmission (TX) power.
+If available, it also decodes and formats manufacturer-specific data, displaying a formatted MAC address and product number (PN).
+"""
+
 import asyncio
 from bleak import BleakScanner
 
@@ -11,8 +18,6 @@ async def scan():
 
     # Loop through each device and print detailed information
     for device in devices:
-            
-
         # If device name contains the word "Penguin"
         if device.name is not None and "Penguin" in device.name:
             if device.rssi < -66:

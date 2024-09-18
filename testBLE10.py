@@ -10,8 +10,12 @@ Created on 2019-03-25 by hbldh <henrik.blidh@nedomkull.com>
 # [Service for Serial Number]: 00002a25-0000-1000-8000-00805f9b34fb
 # [Service for Batter Level]: 0000180f-0000-1000-8000-00805f9b34fb
 ----------------
-Example of how to run the script:
+Example of how to run the script for a specific service:
     python testBLE10.py --services=0000180f-0000-1000-8000-00805f9b34fb --address=257D64C3-28F3-8920-F7C5-36CA6F00D0D6
+
+Example of how to run the script for all services:
+    python testBLE10.py --address=257D64C3-28F3-8920-F7C5-36CA6F00D0D6
+
 """
 
 import argparse

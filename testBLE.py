@@ -8,6 +8,7 @@ async def scan():
         print(device.name)
         print(device.address)
         print(device.details)
+        print('-' * 50)
 
 # Run the scanner
 asyncio.run(scan())

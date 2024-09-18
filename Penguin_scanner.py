@@ -53,7 +53,7 @@ async def connect_Penguin(address):
 
                     # print('-' * 50)
 
-                    if device.rssi < -70:
+                    if device.rssi < -80:
                         continue
                     
                     # get the MAC address of the target Penguin
