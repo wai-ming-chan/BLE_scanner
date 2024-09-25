@@ -58,9 +58,8 @@ def focus_next_widget(event):
 
     # Move focus based on the widget name
     widget_focus_map = {
-        "box_barcode": entry_box_qr,
-        "box_qr": entry_device_barcode,
-        "device_barcode": entry_device_qr
+        "box_qr": entry_device_qr,
+        "entry_device_qr": clear_button
     }
     next_widget = widget_focus_map.get(widget_name)
     if next_widget:
@@ -69,50 +68,34 @@ def focus_next_widget(event):
         check_barcodes()
         clear_button.focus()
 
-# # Function to check if the barcodes and QR codes match
-# def check_barcodes():
-#     print("[debug] check_barcodes is triggered.")
-#     box_barcode = clean_input(entry_box_barcode.get("1.0", "end")).replace("\n", "").replace(" ", "")
-#     box_qr = clean_input(entry_box_qr.get("1.0", "end")).replace("\n", "").replace(" ", "")
-#     device_barcode = clean_input(entry_device_barcode.get("1.0", "end")).replace("\n", "").replace(" ", "")
-#     device_qr = clean_input(entry_device_qr.get("1.0", "end")).replace("\n", "").replace(" ", "")
-
-#     # Check if the barcodes and QR codes match
-#     barcode_match = (box_barcode == device_barcode)
-#     qr_code_match = (box_qr == device_qr)
-
-#     # Display results
-#     result_value_1.config(text="Match" if barcode_match else "No Match", fg="green" if barcode_match else "red")
-#     result_value_2.config(text="Match" if qr_code_match else "No Match", fg="green" if qr_code_match else "red")
+# # Function to check if the QR codes match
 
 # Function to check if the barcodes and QR codes match (case-insensitive)
 def check_barcodes():
     print("[debug] check_barcodes is triggered.")
-    box_barcode = clean_input(entry_box_barcode.get("1.0", "end")).replace("\n", "").replace(" ", "").upper()
+    # box_barcode = clean_input(entry_box_barcode.get("1.0", "end")).replace("\n", "").replace(" ", "").upper()
     box_qr = clean_input(entry_box_qr.get("1.0", "end")).replace("\n", "").replace(" ", "").upper()
-    device_barcode = clean_input(entry_device_barcode.get("1.0", "end")).replace("\n", "").replace(" ", "").upper()
+    # device_barcode = clean_input(entry_device_barcode.get("1.0", "end")).replace("\n", "").replace(" ", "").upper()
     device_qr = clean_input(entry_device_qr.get("1.0", "end")).replace("\n", "").replace(" ", "").upper()
 
     # Check if the barcodes and QR codes match
-    barcode_match = (box_barcode == device_barcode)
     qr_code_match = (box_qr == device_qr)
 
     # Display results
-    result_value_1.config(text="Match" if barcode_match else "No Match", fg="green" if barcode_match else "red")
     result_value_2.config(text="Match" if qr_code_match else "No Match", fg="green" if qr_code_match else "red")
 
 
 # Function to clear all inputs and results
 def clear_all():
-    for entry in [entry_box_barcode, entry_box_qr, entry_device_barcode, entry_device_qr]:
+    for entry in [entry_box_qr, entry_device_qr]:
         entry.delete("1.0", "end")
 
     # Reset the result labels
-    result_value_1.config(text="n/a", fg="grey")
+    # result_value_1.config(text="n/a", fg="grey")
     result_value_2.config(text="n/a", fg="grey")
 
     # Set focus back to the first input field
-    entry_box_barcode.focus()
+    entry_box_qr.focus()
 
 # Function to change the color of the Next Battery button when focused
 def on_focus_in(event):
@@ -123,8 +106,8 @@ def on_focus_out(event):
 
 # Set up the main GUI window
 root = tk.Tk()
-root.title("Barcode Reader")
-root.geometry("500x450")  # Adjusted the width of the window for a narrower look
+root.title("QR Code Reader")
+root.geometry("500x250")  # Adjusted the width of the window for a narrower look
 root.grid_columnconfigure(0, weight=1)
 root.grid_columnconfigure(1, weight=1)  # Add a second column for the Next Battery button
 
@@ -142,17 +125,10 @@ def create_entry(name, row):
     entry.bind("<Return>", lambda event: focus_next_widget(event))
     return entry
 
-# Create barcode and QR code fields
-create_label("1. Scan Box Barcode:", 1)
-entry_box_barcode = create_entry("box_barcode", 2)
-
-create_label("2. Scan Box QR Code:", 3)
+create_label("1. Scan Box QR Code:", 3)
 entry_box_qr = create_entry("box_qr", 4)
 
-create_label("3. Scan Device Barcode:", 5)
-entry_device_barcode = create_entry("device_barcode", 6)
-
-create_label("4. Scan Device QR Code:", 7)
+create_label("2. Scan Device QR Code:", 7)
 entry_device_qr = create_entry("device_qr", 8)
 
 # Create the Next Battery button (Top-right)
@@ -168,18 +144,13 @@ result_frame.grid_columnconfigure(0, weight=1)
 result_frame.grid_columnconfigure(1, weight=1)
 
 # Create result labels and values
-result_label_1 = tk.Label(result_frame, text="Barcode:", font=monospace_font, bg="#070015", fg="white")
-result_value_1 = tk.Label(result_frame, text="n/a", font=monospace_font, bg="#070015", fg="grey")
-result_label_1.grid(row=0, column=0, sticky='w', padx=0)
-result_value_1.grid(row=0, column=1, sticky='w', padx=50)
-
 result_label_2 = tk.Label(result_frame, text="QR Code:", font=monospace_font, bg="#070015", fg="white")
 result_value_2 = tk.Label(result_frame, text="n/a", font=monospace_font, bg="#070015", fg="grey")
 result_label_2.grid(row=1, column=0, sticky='w', padx=0)
 result_value_2.grid(row=1, column=1, sticky='w', padx=50)
 
 # Set initial focus
-entry_box_barcode.focus_set()
+entry_box_qr.focus_set()
 
 # Start the Tkinter event loop
 root.mainloop()
